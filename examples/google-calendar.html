@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<link href='../lib/main.css' rel='stylesheet' />
+<script src='../lib/main.js'></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
+
+<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+
+      headerToolbar: {
+        left: 'title',
+        right: 'prev,next'
+      },
+
+      displayEventTime: false, // don't show the time column in list view
+
+      // THIS KEY WON'T WORK IN PRODUCTION!!!
+      // To make your own Google API key, follow the directions here:
+      // http://fullcalendar.io/docs/google_calendar/
+      googleCalendarApiKey: 'AIzaSyDfIVMdgrV0I5UEaoYpI-bS4sgCwMGFMAg',
+
+      // US Holidays
+      events: {
+        googleCalendarId:'uerhes92@gmail.com'
+      },
+
+      eventClick: function(arg) {
+        // opens events in a popup window
+        window.open(arg.event.url, 'google-calendar-event', 'width=700,height=600');
+
+        arg.jsEvent.preventDefault() // don't navigate in main tab
+      },
+
+      // mouse hover tooltip
+      eventDidMount: function(info) {
+        var tooltip = new Tooltip(info.el, {
+          html: true,
+          title: '<div style="min-width:350px; padding: 20px 10px; display: flex; flex-direction: column;"><div style="font-size: 1.75em; text-transform: uppercase; text-decoration: underline;">' + info.event.title + '</div><div style="width: 100%; display: flex; flex-driection: row; justify-content: space-between;"><p>When</p><div style = "display: flex;"><p>' + new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date(info.event.start)) + '</p><p> - ' + new Intl.DateTimeFormat('en-US', {hour: '2-digit', minute: '2-digit', hour12: true,}).format(new Date(info.event.end)) + '</p></div></div><p class ="copyId">Copy to my calendar</p></div>',
+          placement: 'top-end',
+          trigger: 'hover',
+          container: 'body',
+        });
+      },
+
+      loading: function(bool) {
+        document.getElementById('loading').style.display =
+          bool ? 'block' : 'none';
+      }
+
+    });
+
+    calendar.render();
+  });
+
+</script>
+
+<style>
+
+  @import url(//db.onlinewebfonts.com/c/1a3681e2cd615bd458b68dce439102a4?family=Copyright+Klim+Type+Foundry);
+  
+  body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: 'Copyright Klim Type Foundry', sans-serif;
+    font-size: 14px;
+    background-color: #E8E0BD;
+    color: #0A0947;
+  }
+
+  #loading {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  #calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    background-color: #E8E0BD;
+  }
+
+  th.fc-col-header-cell {
+    padding: 2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .fc-toolbar-title {
+    font-weight: 500;
+  }
+
+  /* main.css | file:///Users/erkhesmungunshagai/Desktop/Weekdays/Projects/Keys/fullcalendar-5.11.0/lib/main.css */
+
+  .fc-theme-standard td, .fc-theme-standard th {
+    /* border: 1px solid var(--fc-border-color, #ddd); */
+    border: 1px solid #0A0947;
+  }
+
+  .fc-theme-standard .fc-scrollgrid {
+    /* border: 1px solid #ddd; */
+    /* border: 1px solid var(--fc-border-color, #ddd); */
+    border-left: 1px solid #0A0947;
+    border-top: 1px solid #0A0947;
+  }
+
+  .fc .fc-daygrid-day-top {
+    border-bottom: 1px solid #0A0947;
+  }
+
+  .fc .fc-day-other .fc-daygrid-day-top {
+    /* opacity: 0.3; */
+    opacity: 1;
+  }
+
+  .fc-h-event {
+    /* border: 1px solid #3788d8; */
+    /* border: 1px solid var(--fc-event-border-color, #3788d8); */
+    /* background-color: var(--fc-event-bg-color, #3788d8); */
+    background-color: var(--fc-event-bg-color, #0A0947);
+    padding: 3px 0 0 3px;
+    color: #E8E0BD;
+  }
+
+  .fc-h-event .fc-event-main {
+    /* color: var(--fc-event-text-color, #fff); */
+    color: var(--fc-event-text-color, #E8E0BD);
+    text-decoration: underline !important;
+  }
+
+  .fc-h-event .fc-event-title {
+    text-decoration: underline;
+  }
+
+  .event-popup {
+    background-color:white;
+    border: 1px solid green;
+    display:none;
+    font-weight:normal;
+    position:absolute;
+    bottom:20px;
+    left:-6px;
+    text-align:left;
+    text-shadow:none;
+    width:393px;
+    z-index:2000;
+}
+
+.fc .fc-button-primary{
+  background-color: transparent !important;
+  border: none;
+}
+
+.fc-icon {
+  display: none;
+}
+
+/*Tooltip styling */
+.popper,
+.tooltip {
+  padding: 20px 10px;
+  position: absolute;
+  z-index: 9999;
+  background-color: #E5DEBB;
+  background-image: url('https://gistcdn.githack.com/Ericulaak/00b2b5d29326b3a3326553ae83f4658f/raw/9b9ec17ff47d5b6da56c78e1733cffcdbfc5a217/dots.svg');
+  color:#0A0947;
+  width: auto;
+  border: 1px solid #0A0947;
+  padding: 0px;
+}
+.style5 .tooltip {
+  background: #1E252B;
+  color: #FFFFFF;
+  max-width: 200px;
+  width: auto;
+  font-size: .8rem;
+  padding: .5em 1em;
+}
+.popper .popper__arrow,
+.tooltip .tooltip-arrow {
+  width: 40px;
+  height: 40px;
+  transform: rotatez(45deg);
+  position: absolute;
+  margin: 5px;
+  border: 1px solid #0A0947;
+}
+
+.tooltip .tooltip-arrow,
+.popper .popper__arrow {
+  background-color: #E5DEBB;
+  background-image: url('https://gistcdn.githack.com/Ericulaak/00b2b5d29326b3a3326553ae83f4658f/raw/9b9ec17ff47d5b6da56c78e1733cffcdbfc5a217/dots.svg');
+}
+.style5 .tooltip .tooltip-arrow {
+  border-color: #1E252B;
+}
+.popper[x-placement^="top"],
+.tooltip[x-placement^="top"] {
+  margin-bottom: 20px;
+}
+.popper[x-placement^="top"] .popper__arrow,
+.tooltip[x-placement^="top"] .tooltip-arrow {
+  bottom: -20px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.popper[x-placement^="bottom"],
+.tooltip[x-placement^="bottom"] {
+  margin-top: 20px;
+}
+.tooltip[x-placement^="bottom"] .tooltip-arrow,
+.popper[x-placement^="bottom"] .popper__arrow {
+  top: -20px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.copyId{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+
+  <div id='loading'>loading...</div>
+
+  <div id='calendar'></div>
+
+  <script>
+
+    setTimeout(function(){
+      const leftButton = document.querySelector('.fc-prev-button');
+      const rightButton = document.querySelector('.fc-next-button');
+
+      var leftIcon = document.createElement('img');
+      var rightIcon = document.createElement('img');
+
+      rightIcon.setAttribute('src', 'https://gistcdn.githack.com/Ericulaak/b3983f7631f10a6ed361990a7d0d9f79/raw/a379545217bf82b1233b8ba9e778066d47cdb9ea/TK-right.svg');
+      rightIcon.setAttribute('style', 'width: 9px;');
+      leftIcon.setAttribute('src', 'https://gistcdn.githack.com/Ericulaak/ca4ee6d2d7688e7c9a22e7e3618316ad/raw/5c68480be3df44a7b3b7b5f60662d1af174dcb89/TK-left.svg');
+      leftIcon.setAttribute('style', 'width: 9px;');
+
+      rightButton.appendChild(rightIcon);
+      leftButton.appendChild(leftIcon);
+    }, 50);
+
+   $("body").on("click",".copyId", function(e){
+      e.preventDefault();
+      var eventId = $(this).parent().parent().parent().attr('id');
+      var eventClick = $("a[aria-describedby='"+eventId+"']");
+      eventClick[0].click();
+    });
+
+
+  </script>
+
+  
+
+  <div id="popup" class="popup_block"></div>
+</body>
+</html>
