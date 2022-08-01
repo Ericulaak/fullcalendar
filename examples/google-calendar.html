@@ -12,7 +12,7 @@
 
 <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
 <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
-<link rel="preload" href="UntitledSans-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -68,8 +68,13 @@
 </script>
 
 <style>
-
-  @import url(//db.onlinewebfonts.com/c/1a3681e2cd615bd458b68dce439102a4?family=Copyright+Klim+Type+Foundry);
+  
+  @font-face {
+      font-family: 'Untitled Sans';
+      src: url('fonts/UntitledSans-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+  }
   
   body {
     margin: 40px 10px;
