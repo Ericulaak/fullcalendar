@@ -20,7 +20,7 @@
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
 
-      initialView: 'dayGridDay',
+      initialView: 'dayGridWeek',
 
       headerToolbar: {
       right: 'prev,next',
@@ -29,7 +29,13 @@
 
       editable: true,
 
-      displayEventTime: false, // don't show the time column in list view
+      displayEventTime: true, 
+      
+      eventTimeFormat: { // like '14:30:00'
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      },// don't show the time column in list view
 
       // THIS KEY WON'T WORK IN PRODUCTION!!!
       // To make your own Google API key, follow the directions here:
@@ -41,23 +47,23 @@
         googleCalendarId:'uerhes92@gmail.com'
       },
 
-      eventClick: function(arg) {
+        eventClick: function(arg) {
         // opens events in a popup window
         window.open(arg.event.url, 'google-calendar-event', 'width=700,height=600');
 
         arg.jsEvent.preventDefault() // don't navigate in main tab
       },
-
-      // mouse hover tooltip
+ 
+     /*  // mouse hover tooltip
       eventDidMount: function(info) {
         var tooltip = new Tooltip(info.el, {
           html: true,
           title: '<div style="min-width:350px; padding: 20px 10px; display: flex; flex-direction: column;"><div style="font-size: 1.75em; text-transform: uppercase; text-decoration: underline;">' + info.event.title + '</div><div style="width: 100%; display: flex; flex-driection: row; justify-content: space-between;"><p>When</p><div style = "display: flex;"><p>' + new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date(info.event.start)) + '</p><p> - ' + new Intl.DateTimeFormat('en-US', {hour: '2-digit', minute: '2-digit', hour12: true,}).format(new Date(info.event.end)) + '</p></div></div><p class ="copyId">Copy to my calendar</p></div>',
           placement: 'top-end',
-          trigger: 'hover',
+          trigger: 'click',
           container: 'body',
         });
-      }, 
+      },  */
 
       loading: function(bool) {
         document.getElementById('loading').style.display =
@@ -74,12 +80,12 @@
 <style>
 
   @font-face {
-    font-family: 'Untitled Sans';
-    src: url('fonts/UntitledSans-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
+      font-family: 'Untitled Sans';
+      src: url('fonts/UntitledSans-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
   }
-  
+
   body {
     margin: 40px 10px;
     padding: 0;
@@ -118,7 +124,6 @@
   .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
     /* background-color: black; */
     background-color: #0A0947;
-    text-decoration: underline;
     color: #E8E0BD;
     font-weight: 500;
     padding-left: 4px;
@@ -126,6 +131,9 @@
 
   .fc-daygrid-dot-event .fc-event-title {
      font-weight: normal;
+     text-decoration: underline;
+     text-decoration-thickness: 2px;
+     text-transform: uppercase;
   }
 
   .fc-daygrid-event-dot {
@@ -171,7 +179,7 @@
 .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: left;
 }
 
 .fc-daygrid-dot-event .fc-event-title {
@@ -241,6 +249,48 @@
 .fc-icon {
   display: none;
 }
+
+
+/* Inline #1 | http://127.0.0.1:5500/examples/google-calendar-mobile.html */
+
+#calendar {
+  /* max-width: 1100px; */
+  max-width: 100%;
+}
+
+th.fc-col-header-cell {
+  /* padding: 2em; */
+  padding: 10px;
+}
+
+/* Element | http://127.0.0.1:5500/examples/google-calendar-mobile.html */
+
+.fc-col-header {
+  /* width: 958px; */
+  width: 100%;
+}
+
+/* Element | http://127.0.0.1:5500/examples/google-calendar-mobile.html */
+
+.fc-scrollgrid-sync-table {
+  /* width: 958px; */
+  width: 100%;
+}
+
+/* Element | http://127.0.0.1:5500/examples/google-calendar-mobile.html */
+
+.fc-daygrid-body {
+  /* width: 958px; */
+  width: 100%;
+}
+
+/* main.css | http://127.0.0.1:5500/lib/main.css */
+
+.fc .fc-toolbar-title {
+  /* font-size: 1.75em; */
+  font-size: 1.1em;
+}
+
 
 /*Tooltip styling */
 .popper,
@@ -341,22 +391,18 @@
       for(var i = 0; i < events.length; i++){
         var eventIcon = document.createElement('img');
         eventIcon.setAttribute('src', 'https://gistcdn.githack.com/Ericulaak/b3983f7631f10a6ed361990a7d0d9f79/raw/a379545217bf82b1233b8ba9e778066d47cdb9ea/TK-right.svg');
-        eventIcon.setAttribute('style', 'width: 9px;');
+        eventIcon.setAttribute('style', 'width: 9px; position: absolute; right: 5px;');
         events[i].appendChild(eventIcon);
       }
 
-    }, 50);
+    }, 300);
 
-    $(".fc-daygrid-event").onclick(function(e){
-      e.preventDefault;
-    });
-
-   $("body").on("click",".copyId", function(e){
+/*    $("body").on("click",".copyId", function(e){
       e.preventDefault();
       var eventId = $(this).parent().parent().parent().attr('id');
       var eventClick = $("a[aria-describedby='"+eventId+"']");
       eventClick[0].click();
-    });
+    }); */
 
   </script>
 
